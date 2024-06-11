@@ -5,3 +5,42 @@
 [x-cloak] {
     display: none;
 }
+
+@font-face {
+    font-family: "Gandhi-Sans";
+    src: url("../assets/fonts/Gandhi/GandhiSans-Bold.otf"),
+        url("../assets/fonts/Gandhi/GandhiSans-BoldItalic.otf"),
+        url("../assets/fonts/Gandhi/GandhiSans-Italic.otf"),
+        url("../assets/fonts/Gandhi/GandhiSans-Regular.otf");
+}
+
+@font-face {
+    font-family: "Gandhi-Serif";
+    src: url("../assets/fonts/Gandhi/GandhiSerif-Bold.otf"),
+        url("../assets/fonts/Gandhi/GandhiSerif-BoldItalic.otf"),
+        url("../assets/fonts/Gandhi/GandhiSerif-Italic.otf"),
+        url("../assets/fonts/Gandhi/GandhiSerif-Regular.otf");
+}
+
+@font-face {
+    font-family: "Gilroy";
+    src: url("../assets/fonts/Gilroy/Gilroy-Black.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-BlackItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-Bold.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-BoldItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-ExtraBold.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-ExtraBoldItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-Heavy.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-HeavyItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-Light.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-LightItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-Medium.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-MediumItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-Regular.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-RegularItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-SemiBold.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-Thin.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-ThinItalic.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-UltraLight.ttf"),
+        url("../assets/fonts/Gilroy/Gilroy-UltraLightItalic.ttf");
+}
