@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <MenuSection v-for="section in page.sections" class="md:mb-4">
+    <MenuSection v-for="section in page.sections" class="mb-4">
         <p class="uppercase text-center text-2xl md:text-3xl font-bold text-primary-600 mb-4">{{ section.title }}</p>
 
         <!-- Elements -->

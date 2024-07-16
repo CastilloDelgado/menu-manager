@@ -10,6 +10,5 @@ defineProps({
 </script>
 
 <template>
-
     <MenuPage v-for="page in menu.pages" :page="page" />
 </template>
