@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,4 @@ Route::middleware([
 });
 
 
-Route::get('/admin', function(){
-    return Inertia::render('Admin');
-})->name('admin');
+Route::get('/admin', [MenuController::class, 'index'])->name('admin');

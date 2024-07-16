@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->double('price');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
+            $table->unsignedBigInteger('section_id');
             $table->timestamps();
         });
     }
