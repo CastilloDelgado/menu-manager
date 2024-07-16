@@ -1,6 +1,11 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import MenuLayout from '@/Components/MenuLayout.vue'
+import Menu from '@/Components/Menu.vue'
+import MENU from "../../../contansts"
+import { ref } from 'vue';
+
+const menu = ref({ ...MENU })
 
 </script>
 
@@ -9,6 +14,6 @@ import MenuLayout from '@/Components/MenuLayout.vue'
     <Head title="Menu" />
 
     <MenuLayout>
-        <p>Hola</p>
+        <Menu :menu="menu" />
     </MenuLayout>
 </template>
