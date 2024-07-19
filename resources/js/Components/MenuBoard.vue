@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { nextTick, ref } from "vue";
 import { nanoid } from "nanoid";
 import MenuItem from "./MenuItem.vue"
 import DragHandle from "./DragHandle.vue"
 import draggable from "vuedraggable/dist/vuedraggable.common";
-import { useKeyModifier } from "@vueuse/core";
-const sections = ref([
+import { useKeyModifier, useLocalStorage } from "@vueuse/core";
+import NewItem from "./NewItem.vue";
+const sections = useLocalStorage('menuBoard', [
     {
         id: nanoid(),
         name: "Cerveza",
@@ -56,10 +57,24 @@ const sections = ref([
 
 const alt = useKeyModifier('Alt')
 
+function createSection(){
+    const section = {
+        id: nanoid(),
+        name: "",
+        description: "",
+        items: []
+    }
+
+    sections.value.push(section)
+    nextTick(() => {
+        (document.querySelector(".section:last-of-type .name-input") as HTMLInputElement).focus()
+    }) 
+}
+
 </script>
 
 <template>
-    <div>   
+    <div class="flex items-start gap-2 overflow-x-auto">   
         <draggable  
             v-model="sections" 
             group="sections"  
@@ -71,12 +86,16 @@ const alt = useKeyModifier('Alt')
             class="flex gap-2 h-[100vh]"
             >
             <template #item="{element: section}">
-                <div class="bg-gray-800 h-full min-w-[240px] p-2 rounded">
+                <div class="section bg-gray-800 h-full min-w-[240px] p-2 rounded">
                     <header class="text-lg text-white mb-2 flex gap-2">
                         <DragHandle />
-                        <p class="select-none">
-                            {{ section.name }}
-                        </p>
+                        <input
+                            type="text"
+                            class="name-input bg-transparent focus:bg-white rounded px-1 w-4/5"
+                            @keyup.enter="($event.target as HTMLInputElement).blur()"
+                            @keydown.backspace="section.name === '' ? (sections = sections.filter(s => s.id !== section.id)) : null"
+                            v-model="section.name"
+                        />
                     </header>
                     <div class="space-y-2 mb-2">
                         <draggable  
@@ -91,7 +110,7 @@ const alt = useKeyModifier('Alt')
                         >
                             <template #item="{element: item}">
                                 <div>
-                                    <MenuItem :item="item"  />
+                                    <MenuItem :item="item" @delete="section.items = section.items.filter((i) => i.id !== $event)" />
                                 </div>
                             </template>
                         </draggable>
@@ -99,12 +118,17 @@ const alt = useKeyModifier('Alt')
                     </div>
                     
                     <footer class="">
-                        <button class="bg-gray-300 text-black w-full">
-                            + Agregar producto
-                        </button>
+                      <NewItem @add="section.items.push($event)" />
                     </footer>
                 </div>
             </template>
         </draggable>
+        <button
+            @click="createSection"
+            class="
+            bg-gray-200 whitespace-nowrap p-2 rounded opacity-50"
+        >
+            + Agregar sección
+        </button>
     </div>
 </template>

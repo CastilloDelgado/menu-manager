@@ -1,4 +1,3 @@
 <template>
-                         <span class="drag-handle cursor-grab"> ⠿ </span>
-
+    <span class="drag-handle cursor-grab"> ⠿ </span>
 </template>
