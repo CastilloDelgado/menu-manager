@@ -14,4 +14,21 @@ class MenuController extends Controller
             'menus' => Menu::all()
         ]);
     }
+
+    public function store()
+    {
+        $timestamp = date("Y-m-d-h-m-s");
+        $menuTitle = 'Nuevo Menu ' . $timestamp;
+        Menu::create([
+            'name' => $menuTitle,
+            'description' => '',
+            'active' => false
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $menu = Menu::find($id);
+        $menu->delete();
+    }
 }
