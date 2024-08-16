@@ -29,4 +29,11 @@ class MenuController extends Controller
         $menu = Menu::find($id);
         $menu->delete();
     }
+
+    public function update(Request $request, string $id)
+    {
+        $menu = Menu::find($id);
+        $menu->name = $request->name;
+        $menu->save();
+    }
 }

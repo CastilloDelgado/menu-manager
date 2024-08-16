@@ -23,6 +23,12 @@ const handleDeleteMenuClick = (menuId) => {
     });
 }
 
+const handleTitleMenuInputChange = (e) => {
+    router.post(`/menu/${selectedMenuObject.value?.id}`, {
+        'name': e.target.value 
+    });
+}
+
 const formatDate = (menuDate) => {
     const date = new Date(menuDate)
     return date.toLocaleDateString()
@@ -56,14 +62,14 @@ const selectedMenuObject = computed(() => props.menus[selectedMenu.value] || {})
                         </li>
                     </ul>
                 </div>
-                <div class="flex justify-center mt-6">
+                <div class="flex justify-center mt-6 px-2">
                     <button @click="handleCreateMenuClick" class="bg-white transition hover:scale-105 text-black rounded px-2 py-3 w-full border-2 border-primary-900">Agregar Menu</button>
                 </div>
             </div>
         </div>
         <div class="w-5/6 overflow-auto bg-primary-900 px-3 py-2">
             <div class="mb-2 flex gap-2">
-                <h1 class="text-white text-3xl">{{ selectedMenuObject?.name || '' }}</h1>
+                <input @input="handleTitleMenuInputChange" type="text" class="text-white px-2 pt-1 text-3xl outline-none border-none bg-primary-800 rounded p-0" :value="selectedMenuObject.name"/>
                 <div class="grid place-content-end pb-1">
                     <p class="text-neutral-300">{{`(${selectedMenu && formatDate(selectedMenuObject?.created_at)})`}}</p>
                 </div>
