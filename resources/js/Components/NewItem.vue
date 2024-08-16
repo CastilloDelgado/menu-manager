@@ -30,7 +30,7 @@ function createTask(e){
             @blur="focused = false"
             :placeholder="!focused ? '+ Agregar producto' : 'Dale un nombre al producto'"
             :class="{
-                'h-7': !focused,
+                'h-10': !focused,
                 'h-20': focused
             }"
             style="outline: none !important;"
