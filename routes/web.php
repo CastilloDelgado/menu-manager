@@ -28,3 +28,4 @@ Route::middleware([
 
 Route::get('/admin', [MenuController::class, 'index'])->name('admin.index');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
+Route::delete('/menu/{id}', [MenuController::class, 'delete'])->name('menu.delete');

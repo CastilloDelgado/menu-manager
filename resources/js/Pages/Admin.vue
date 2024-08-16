@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import MenuBoard from "../Components/MenuBoard.vue"
 import LogoBadge from '../Components/LogoBadge.vue';
 import { router } from '@inertiajs/vue3';
@@ -11,33 +11,70 @@ const props = defineProps({
     }
 })
 
-const selectedMenu = ref(props.menus[0])
+const selectedMenu = ref()
 
 const handleCreateMenuClick = () => {
     router.post('/menu');
 }
 
+const handleDeleteMenuClick = (menuId) => {
+    router.delete(`/menu/${menuId}`, {
+        onBefore: () => confirm(`¿Seguro que necesitas eliminar el menu: ${selectedMenuObject.value?.name}?`)
+    });
+}
+
+const formatDate = (menuDate) => {
+    const date = new Date(menuDate)
+    return date.toLocaleDateString()
+}
+
+const handleMenuSelection = (menuIndex) => selectedMenu.value = menuIndex
+const selectedMenuObject = computed(() => props.menus[selectedMenu.value] || {})
+
 </script>
 
 <template>
-    <div class="bg-primary-50 w-full flex">
-        <div class="w-1/6 bg-primary-600 pt-6 px-4 overflow-y-auto max-h-screen">
+    <div class="bg-primary-50 w-full flex min-h-screen">
+        <div class="w-1/6 bg-primary-600 pt-6 px-4 max-h-screen pb-12 border-r-4 border-primary-700">
             <LogoBadge class="mb-6" />
             <div class="text-center">
                 <p class="text-white text-xl mb-2">Listado de Menus</p>
-                <ul class="">
-                    <li v-for="menu in menus" :key="menu.id">{{ menu.name }}</li>
-                </ul>
+                <div class="overflow-x-hidden overflow-y-auto max-h-[70vh]">
+                    <ul class="space-y-2 p-2">
+                        <li 
+                            v-for="(menu, index) in menus" 
+                            :key="menu.id" 
+                            class="py-1 rounded border-2 hover:scale-105 transition select-none cursor-pointer" 
+                            :class="{
+                                'bg-primary-800 border-primary-50 text-primary-50': index === selectedMenu,
+                                'bg-primary-50  border-primary-800': index !== selectedMenu
+                            }"
+                            @click="() => handleMenuSelection(index)"
+                        >
+                            <p>{{ menu.name }}</p>
+                            <p class="text-xs">{{ formatDate(menu.created_at) }}</p>
+                        </li>
+                    </ul>
+                </div>
                 <div class="flex justify-center mt-6">
-                    <button @click="handleCreateMenuClick" class="bg-white transition hover:scale-105 text-black rounded px-2 py-1">Agregar Menu</button>
+                    <button @click="handleCreateMenuClick" class="bg-white transition hover:scale-105 text-black rounded px-2 py-3 w-full border-2 border-primary-900">Agregar Menu</button>
                 </div>
             </div>
         </div>
-        <div class="w-5/6 overflow-auto">
-            <div class="pl-2 pt-2">
-                <h1 class="text-white text-2xl">Crear menu</h1>
+        <div class="w-5/6 overflow-auto bg-primary-900 px-3 py-2">
+            <div class="mb-2 flex gap-2">
+                <h1 class="text-white text-3xl">{{ selectedMenuObject?.name || '' }}</h1>
+                <div class="grid place-content-end pb-1">
+                    <p class="text-neutral-300">{{`(${selectedMenu && formatDate(selectedMenuObject?.created_at)})`}}</p>
+                </div>
+                <button 
+                    class="bg-white text-primary-700 px-2 rounded hover:scale-105 hover:text-white hover:bg-primary-700 transition"
+                    @click="() => handleDeleteMenuClick(selectedMenuObject?.id)"
+                >
+                    Eliminar
+                </button>
             </div>
-            <MenuBoard />
+            <MenuBoard :selected-menu="menus[selectedMenu]" />
         </div>
     </div>
 </template>

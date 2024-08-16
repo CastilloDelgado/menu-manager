@@ -17,10 +17,8 @@ class MenuController extends Controller
 
     public function store()
     {
-        $timestamp = date("Y-m-d-h-m-s");
-        $menuTitle = 'Nuevo Menu ' . $timestamp;
         Menu::create([
-            'name' => $menuTitle,
+            'name' => "Nuevo menu",
             'description' => '',
             'active' => false
         ]);

@@ -6,6 +6,15 @@ import DragHandle from "./DragHandle.vue"
 import draggable from "vuedraggable/dist/vuedraggable.common";
 import { useKeyModifier, useLocalStorage } from "@vueuse/core";
 import NewItem from "./NewItem.vue";
+
+
+const props = defineProps({
+    selectedMenu: {
+        type: Object,
+        required: false
+    }
+})
+
 const sections = useLocalStorage('menuBoard', [
     {
         id: nanoid(),
@@ -83,10 +92,10 @@ function createSection(){
             item-key="id"
             :animation="200"
             handle=".drag-handle"
-            class="flex gap-2 h-[100vh]"
+            class="flex gap-2 h-[90vh]"
             >
             <template #item="{element: section}">
-                <div class="section bg-gray-800 h-full min-w-[240px] p-2 rounded">
+                <div class="section bg-primary-800 h-full min-w-[240px] p-2 rounded">
                     <header class="text-lg text-white mb-2 flex gap-2">
                         <DragHandle />
                         <input
