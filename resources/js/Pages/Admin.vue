@@ -11,7 +11,7 @@ const props = defineProps({
     }
 })
 
-const selectedMenu = ref()
+const selectedMenu = ref(0)
 
 const handleCreateMenuClick = () => {
     router.post('/menu');
