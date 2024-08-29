@@ -6,6 +6,8 @@ import DragHandle from "./DragHandle.vue"
 import draggable from "vuedraggable/dist/vuedraggable.common";
 import { useKeyModifier, useLocalStorage } from "@vueuse/core";
 import NewItem from "./NewItem.vue";
+import { router } from '@inertiajs/vue3';
+
 
 
 const props = defineProps({
@@ -68,23 +70,32 @@ const sections = useLocalStorage('menuBoard', [
 const alt = useKeyModifier('Alt')
 
 function createSection(){
-    const section = {
-        id: nanoid(),
-        name: "",
-        description: "",
-        items: []
-    }
+    // const section = {
+    //     id: nanoid(),
+    //     name: "",
+    //     description: "",
+    //     items: []
+    // }
 
-    sections.value.push(section)
-    nextTick(() => {
-        (document.querySelector(".section:last-of-type .name-input") as HTMLInputElement).focus()
-    }) 
+    // sections.value.push(section)
+    // nextTick(() => {
+    //     (document.querySelector(".section:last-of-type .name-input") as HTMLInputElement).focus()
+    // }) 
+
+    router.post(`/menu/${props.selectedMenu?.id}/section`)
+
+}
+
+const deleteSection = (sectionId: any) => {
+    router.delete(`/section/${sectionId}`, {
+        onBefore: () => confirm(`¿Seguro que necesitas eliminar esta sección?`)
+    });
 }
 
 </script>
 
 <template>
-    <div class="flex items-start overflow-x-auto" v-if="selectedMenu">   
+    <div class="flex items-start overflow-x-auto pt-1" v-if="selectedMenu">   
         <draggable  
             v-model="selectedMenu.sections" 
             group="sections"  
@@ -96,7 +107,7 @@ function createSection(){
             class="flex gap-2 h-[90vh]"
             >
             <template #item="{element: section}">
-                <div class="section bg-primary-500 h-full min-w-[240px] p-1 rounded overflow-auto border-4 border-primary-500">
+                <div class="section bg-primary-600 h-full min-w-[240px] p-1 rounded overflow-auto border-4 border-primary-600">
                     <header class="text-lg text-white mb-2 flex gap-2">
                         <DragHandle />
                         <input
@@ -106,6 +117,9 @@ function createSection(){
                             @keydown.backspace="section.name === '' ? (sections = sections.filter(s => s.id !== section.id)) : null"
                             v-model="section.name"
                         />
+                        <button
+                            @click="deleteSection(section.id)"
+                        class="bg-white text-center text-sm text-black rounded w-6 h-6 hover:scale-105 hover:bg-black hover:text-white transition">X</button>
                     </header>
                     <div class="space-y-2 mb-2">
                         <draggable  
@@ -135,8 +149,7 @@ function createSection(){
         </draggable>
         <button
             @click="createSection"
-            class="
-            bg-gray-200 whitespace-nowrap p-2 rounded opacity-50 ml-2"
+            class="bg-white whitespace-nowrap hover:scale-105 transition p-2 rounded ml-2"
         >
             + Agregar sección
         </button>

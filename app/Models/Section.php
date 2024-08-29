@@ -14,8 +14,6 @@ class Section extends Model
 
     protected $with = ['items'];
 
-
-
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'section_id');

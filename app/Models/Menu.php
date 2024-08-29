@@ -14,7 +14,6 @@ class Menu extends Model
 
     protected $with = ['sections'];
 
-
     public function sections(): HasMany
     {
         return $this->hasMany(Section::class, 'menu_id');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullabe();
+            $table->string('name')->nullabe()->default('');
             $table->string('description')->nullable();
             $table->boolean('active')->default(true);
             $table->unsignedBigInteger('menu_id');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,3 +31,6 @@ Route::get('/admin', [MenuController::class, 'index'])->name('admin.index');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
 Route::delete('/menu/{id}', [MenuController::class, 'delete'])->name('menu.delete');
 Route::post('/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
+
+Route::post('/menu/{menuId}/section', [SectionController::class, 'store'])->name('section.store');
+Route::delete('/section/{id}', [SectionController::class, 'delete'])->name('section.delete');
