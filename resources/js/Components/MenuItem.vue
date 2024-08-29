@@ -21,7 +21,7 @@ onKeyStroke("Backspace", (e) => {
 
 <template>
     <div 
-        class="item rounded bg-primary-900 text-white px-2 pt-1 pb-2"
+        class="item rounded bg-primary-800 text-white px-2 pt-1 pb-2"
         tabindex="0"
         @focus="focused = true" 
         @blur="focused = false"

@@ -96,12 +96,12 @@ function createSection(){
             class="flex gap-2 h-[90vh]"
             >
             <template #item="{element: section}">
-                <div class="section bg-primary-700 h-full min-w-[240px] px-1 py-2 rounded overflow-auto border-4 border-primary-700">
+                <div class="section bg-primary-500 h-full min-w-[240px] p-1 rounded overflow-auto border-4 border-primary-500">
                     <header class="text-lg text-white mb-2 flex gap-2">
                         <DragHandle />
                         <input
                             type="text"
-                            class="name-input border-none outline-none bg-transparent focus:bg-white focus:text-red-700 rounded p-0 text-lg w-4/5"
+                            class="name-input border-none outline-none bg-transparent py-0 px-1 text-lg w-4/5"
                             @keyup.enter="($event.target as HTMLInputElement).blur()"
                             @keydown.backspace="section.name === '' ? (sections = sections.filter(s => s.id !== section.id)) : null"
                             v-model="section.name"
@@ -116,7 +116,7 @@ function createSection(){
                             item-key="id"
                             :animation="200"
                             handle=".drag-handle"
-                            class="flex flex-col gap-2 min-h-[120px] bg-primary-500 rounded p-2"
+                            class="flex flex-col gap-2 min-h-[120px] rounded"
                         >
                             <template #item="{element: item}">
                                 <div>
@@ -136,7 +136,7 @@ function createSection(){
         <button
             @click="createSection"
             class="
-            bg-gray-200 whitespace-nowrap p-2 rounded opacity-50"
+            bg-gray-200 whitespace-nowrap p-2 rounded opacity-50 ml-2"
         >
             + Agregar sección
         </button>
