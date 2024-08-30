@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->double('price');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->double('price')->nullable();
             $table->boolean('active')->default(true);
             $table->unsignedBigInteger('section_id');
             $table->timestamps();

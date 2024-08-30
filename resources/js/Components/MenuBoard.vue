@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import draggable from "vuedraggable/dist/vuedraggable.common";
+import { router } from '@inertiajs/vue3';
 import SectionBoard from "./SectionBoard.vue";
 
 const props = defineProps({
@@ -7,7 +8,10 @@ const props = defineProps({
         type: Object,
         required: false
     }
-});
+})
+
+const createSection = () => router.post(`/menu/${props.selectedMenu?.id}/section`)
+
 </script>
 
 <template>

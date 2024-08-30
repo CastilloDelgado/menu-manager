@@ -2,7 +2,6 @@
 import MenuItem from "./MenuItem.vue"
 import DragHandle from "./DragHandle.vue"
 import draggable from "vuedraggable/dist/vuedraggable.common";
-import NewItem from "./NewItem.vue";
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -12,17 +11,18 @@ const props = defineProps({
     }
 })
 
-const deleteSection = (sectionId: any) => {
+const deleteSection = (sectionId: any) => 
     router.delete(`/section/${sectionId}`, {
         onBefore: () => confirm(`¿Seguro que necesitas eliminar esta sección?`)
     });
-}
 
-const handleSectionChange = (event : any, sectionId : any) => {
+
+const handleSectionChange = (event : any, sectionId : any) => 
     router.post(`/section/${sectionId}`, {
         name: event.target.value
     })
-}
+
+const addNewItem = () => router.post(`/section/${props.section.id}/item`);
 </script>
 
 <template>
@@ -59,8 +59,8 @@ const handleSectionChange = (event : any, sectionId : any) => {
             </draggable>
         </div>
         
-        <footer class="">
-            <NewItem @add="section.items.push($event)" />
+        <footer class="flex justify-end">
+            <button @click="addNewItem" class="bg-white text-black capitalize text-sm px-2 py-1 hover:scale-105 transition rounded">+ agregar producto</button>
         </footer>
     </div>
 </template>
