@@ -1,97 +1,13 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from "vue";
-import { nanoid } from "nanoid";
-import MenuItem from "./MenuItem.vue"
-import DragHandle from "./DragHandle.vue"
 import draggable from "vuedraggable/dist/vuedraggable.common";
-import { useKeyModifier, useLocalStorage } from "@vueuse/core";
-import NewItem from "./NewItem.vue";
-import { router } from '@inertiajs/vue3';
-
-
+import SectionBoard from "./SectionBoard.vue";
 
 const props = defineProps({
     selectedMenu: {
         type: Object,
         required: false
     }
-})
-
-
-const sections = useLocalStorage('menuBoard', [
-    {
-        id: nanoid(),
-        name: "Cerveza",
-        description: "",
-        active: true,
-        items: [
-            {
-                id: nanoid(),
-                name: "Corona",
-                description: "",
-                price: 40,
-                active: true,
-                variants: [],
-            },
-            {
-                id: nanoid(),
-                name: "Victoria",
-                description: "",
-                price: 40,
-                active: true,
-                variants: [],
-            },
-            {
-                id: nanoid(),
-                name: "Modelo",
-                description: "",
-                price: 40,
-                active: true,
-                variants: [],
-            }
-        ],
-    },
-    {
-        id: nanoid(),
-        name: "Comida",
-        description: "",
-        active: true,
-        items: [],
-    },
-    {
-        id: nanoid(),
-        name: "Postre",
-        description: "",
-        active: true,
-        items: [],
-    }
-])
-
-const alt = useKeyModifier('Alt')
-
-function createSection(){
-    // const section = {
-    //     id: nanoid(),
-    //     name: "",
-    //     description: "",
-    //     items: []
-    // }
-
-    // sections.value.push(section)
-    // nextTick(() => {
-    //     (document.querySelector(".section:last-of-type .name-input") as HTMLInputElement).focus()
-    // }) 
-
-    router.post(`/menu/${props.selectedMenu?.id}/section`)
-
-}
-
-const deleteSection = (sectionId: any) => {
-    router.delete(`/section/${sectionId}`, {
-        onBefore: () => confirm(`¿Seguro que necesitas eliminar esta sección?`)
-    });
-}
-
+});
 </script>
 
 <template>
@@ -107,44 +23,7 @@ const deleteSection = (sectionId: any) => {
             class="flex gap-2 h-[90vh]"
             >
             <template #item="{element: section}">
-                <div class="section bg-primary-600 h-full min-w-[240px] p-1 rounded overflow-auto border-4 border-primary-600">
-                    <header class="text-lg text-white mb-2 flex gap-2">
-                        <DragHandle />
-                        <input
-                            type="text"
-                            class="name-input border-none outline-none bg-transparent py-0 px-1 text-lg w-4/5"
-                            @keyup.enter="($event.target as HTMLInputElement).blur()"
-                            @keydown.backspace="section.name === '' ? (sections = sections.filter(s => s.id !== section.id)) : null"
-                            v-model="section.name"
-                        />
-                        <button
-                            @click="deleteSection(section.id)"
-                        class="bg-white text-center text-sm text-black rounded w-6 h-6 hover:scale-105 hover:bg-black hover:text-white transition">X</button>
-                    </header>
-                    <div class="space-y-2 mb-2">
-                        <draggable  
-                            v-model="section.items" 
-                            :group="{name: 'items', pull: alt ? 'clone' : true }"  
-                            @start="drag=true"  
-                            @end="drag=false" 
-                            item-key="id"
-                            :animation="200"
-                            handle=".drag-handle"
-                            class="flex flex-col gap-2 min-h-[120px] rounded"
-                        >
-                            <template #item="{element: item}">
-                                <div>
-                                    <MenuItem :item="item" @delete="section.items = section.items.filter((i) => i.id !== $event)" />
-                                </div>
-                            </template>
-                        </draggable>
-                        
-                    </div>
-                    
-                    <footer class="">
-                      <NewItem @add="section.items.push($event)" />
-                    </footer>
-                </div>
+                <SectionBoard :section="section" />
             </template>
         </draggable>
         <button

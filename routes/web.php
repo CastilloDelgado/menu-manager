@@ -34,3 +34,4 @@ Route::post('/menu/{id}', [MenuController::class, 'update'])->name('menu.update'
 
 Route::post('/menu/{menuId}/section', [SectionController::class, 'store'])->name('section.store');
 Route::delete('/section/{id}', [SectionController::class, 'delete'])->name('section.delete');
+Route::post('/section/{id}', [SectionController::class, 'update'])->name('section.update');
