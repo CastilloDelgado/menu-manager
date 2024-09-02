@@ -26,6 +26,6 @@ class VariantController extends Controller
 
     public function delete(string $id)
     {
-        Item::destroy($id);
+        Variant::destroy($id);
     }
 }

@@ -4,6 +4,7 @@ import DragHandle from './DragHandle.vue';
 import { router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import { watch } from 'vue';
+import ItemVariant from './ItemVariant.vue';
 
 const props = defineProps({
     item: Object
@@ -74,19 +75,9 @@ onMounted(() => {
                     <p v-if="item.variants.length === 0" class="text-xs">
                         No hay variantes de este platillo
                     </p>
-                    <div v-else v-for="variant in item.variants" class="flex justify-between w-full  border-b border-primary-400 mb-1">
-                        <div class="w-32">
-                            <p class="font-bold text-xs text-neutral-300">Nombre</p>
-                            <input type="text" placeholder="Nombre del platillo" :value="variant.name" class="border-none select:outline-none outline-none bg-transparent text-white text-xs py-0 px-1">
-                        </div>
-                        <div class="w-20">
-                            <p class="font-bold text-xs text-neutral-300">Precio</p>
-                            <div class="flex">
-                                <p>$</p>
-                                <input type="number" step="0.01" placeholder="Nombre del platillo" :value="variant.price" class="w-full border-none select:outline-none outline-none bg-transparent text-white text-xs py-0 px-1">
-                            </div>
-                        </div>
-                    </div>
+                    <template v-else v-for="variant in item.variants" class="flex justify-between w-full  border-b border-primary-400 mb-1">
+                        <ItemVariant :variant="variant" />
+                    </template>
                 </div>
                 <div class="flex justify-end w-full">
                     <button class="transition hover:scale-105 bg-white text-black rounded p-2 pb-1 text-xs capitalize" @click="addNewVariant">+ Agregar variante</button>
