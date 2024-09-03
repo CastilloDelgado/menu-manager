@@ -3,6 +3,8 @@ import { computed, ref } from 'vue';
 import MenuBoard from "../Components/MenuBoard.vue"
 import LogoBadge from '../Components/LogoBadge.vue';
 import { router } from '@inertiajs/vue3';
+import { watch } from 'vue';
+import { onMounted } from 'vue';
 
 const props = defineProps({
     menus: {
@@ -12,10 +14,14 @@ const props = defineProps({
 })
 
 const selectedMenu = ref(0)
+const menuName = ref('')
 
 const handleCreateMenuClick = () => {
     router.post('/menu');
 }
+
+const handleMenuSelection = (menuIndex) => selectedMenu.value = menuIndex
+const selectedMenuObject = computed(() => props.menus[selectedMenu.value] || {})
 
 const handleDeleteMenuClick = (menuId) => {
     router.delete(`/menu/${menuId}`, {
@@ -23,19 +29,24 @@ const handleDeleteMenuClick = (menuId) => {
     });
 }
 
-const handleTitleMenuInputChange = (e) => {
+const handleTitleMenuInputChange = (newMenuName) => {
     router.post(`/menu/${selectedMenuObject.value?.id}`, {
-        'name': e.target.value 
+        'name': newMenuName
     });
 }
+
+watch(menuName, (newMenuName) => {
+    handleTitleMenuInputChange(newMenuName)
+})
 
 const formatDate = (menuDate) => {
     const date = new Date(menuDate)
     return date.toLocaleDateString()
 }
 
-const handleMenuSelection = (menuIndex) => selectedMenu.value = menuIndex
-const selectedMenuObject = computed(() => props.menus[selectedMenu.value] || {})
+onMounted(() => {
+    menuName.value = selectedMenuObject.value.name
+})
 
 </script>
 
@@ -69,7 +80,7 @@ const selectedMenuObject = computed(() => props.menus[selectedMenu.value] || {})
         </div>
         <div class="w-5/6 overflow-auto bg-primary-900 px-3 py-2">
             <div class="mb-2 flex gap-2">
-                <input @input="handleTitleMenuInputChange" type="text" class="text-white px-2 pt-1 text-3xl outline-none border-none bg-primary-800 rounded p-0" :value="selectedMenuObject.name"/>
+                <input type="text" class="text-white px-2 pt-1 text-3xl outline-none border-none bg-primary-800 rounded p-0" v-model="menuName"/>
                 <div class="grid place-content-end pb-1">
                     <p class="text-neutral-300">{{`(${selectedMenu && formatDate(selectedMenuObject?.created_at)})`}}</p>
                 </div>
